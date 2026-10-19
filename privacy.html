@@ -12,6 +12,61 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css"/>
+
+    <script>
+        // Langue affichée : ?lang=… > choix mémorisé > langue du navigateur > anglais.
+        // Exécuté dans le <head> pour éviter d'afficher brièvement la mauvaise langue.
+        (function () {
+            var supported = ["en", "fr"];
+            var titles = {en: "MuscleUP - Privacy Policy", fr: "MuscleUP - Politique de confidentialité"};
+            var storageKey = "muscleup-lang";
+            var root = document.documentElement;
+
+            function isSupported(lang) {
+                return supported.indexOf(lang) !== -1;
+            }
+
+            function initialLang() {
+                var fromUrl = new URLSearchParams(location.search).get("lang");
+                if (isSupported(fromUrl)) return fromUrl;
+                try {
+                    var saved = localStorage.getItem(storageKey);
+                    if (isSupported(saved)) return saved;
+                } catch (e) {}
+                return /^fr\b/i.test(navigator.language || "") ? "fr" : "en";
+            }
+
+            function apply(lang) {
+                root.lang = lang;
+                document.title = titles[lang];
+                document.querySelectorAll("[data-set-lang]").forEach(function (link) {
+                    link.setAttribute("aria-current", link.getAttribute("data-set-lang") === lang ? "true" : "false");
+                });
+                document.querySelectorAll("[data-label-" + lang + "]").forEach(function (el) {
+                    el.setAttribute("aria-label", el.getAttribute("data-label-" + lang));
+                });
+            }
+
+            apply(initialLang());
+            document.addEventListener("DOMContentLoaded", function () {
+                apply(root.lang);
+            });
+
+            document.addEventListener("click", function (event) {
+                var link = event.target.closest("[data-set-lang]");
+                if (!link) return;
+                event.preventDefault();
+                var lang = link.getAttribute("data-set-lang");
+                apply(lang);
+                try {
+                    localStorage.setItem(storageKey, lang);
+                } catch (e) {}
+                var url = new URL(location.href);
+                url.searchParams.set("lang", lang);
+                history.replaceState(null, "", url);
+            });
+        })();
+    </script>
 </head>
 
 <body>
@@ -19,227 +74,460 @@
 
     <header class="topbar">
         <a class="logo" href="./">MUSCLE<span class="up">UP</span></a>
-        <nav class="nav" aria-label="Legal documents">
-            <a href="terms.html" hreflang="fr">CGU</a>
-            <a href="privacy.html" aria-current="page">Privacy</a>
-        </nav>
+        <div class="topbar-end">
+            <nav class="nav" aria-label="Legal documents" data-label-en="Legal documents" data-label-fr="Documents légaux">
+                <a href="terms.html" hreflang="fr">CGU</a>
+                <a href="privacy.html" aria-current="page"><span class="l10n" lang="en">Privacy</span><span class="l10n" lang="fr">Confidentialité</span></a>
+            </nav>
+            <div class="lang-switch" role="group" aria-label="Language / Langue">
+                <a href="?lang=en" hreflang="en" lang="en" data-set-lang="en" aria-label="English">EN</a>
+                <a href="?lang=fr" hreflang="fr" lang="fr" data-set-lang="fr" aria-label="Français">FR</a>
+            </div>
+        </div>
     </header>
 
-    <div class="hero">
-        <p class="eyebrow">Legal · Privacy</p>
-        <h1 class="page-title">Privacy Policy</h1>
-        <p class="lede">This Privacy Policy describes how the mobile application <strong>MuscleUP</strong>
-            ("the Application") handles user data.</p>
-        <div class="meta-row">
-            <span class="tag"><b>0</b>&nbsp;personal data collected</span>
-            <span class="tag"><b>100&nbsp;%</b>&nbsp;on-device</span>
-            <span class="tag">Last updated&nbsp;·&nbsp;<b>October 19, 2026</b></span>
+    <!-- ==================== ENGLISH ==================== -->
+    <div class="l10n" lang="en">
+
+        <div class="hero">
+            <p class="eyebrow">Legal · Privacy</p>
+            <h1 class="page-title">Privacy Policy</h1>
+            <p class="lede">This Privacy Policy describes how the mobile application <strong>MuscleUP</strong>
+                ("the Application") handles user data.</p>
+            <div class="meta-row">
+                <span class="tag"><b>0</b>&nbsp;personal data collected</span>
+                <span class="tag"><b>100&nbsp;%</b>&nbsp;on-device</span>
+                <span class="tag">Last updated&nbsp;·&nbsp;<b>October 19, 2026</b></span>
+            </div>
         </div>
-    </div>
 
-    <div class="summary">
-        <div class="feat">
-            <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></svg>
-            <h3>No data collection</h3>
-            <p>Nothing you enter is sent to the developer or to any server.</p>
+        <div class="summary">
+            <div class="feat">
+                <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></svg>
+                <h3>No data collection</h3>
+                <p>Nothing you enter is sent to the developer or to any server.</p>
+            </div>
+            <div class="feat">
+                <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+                <h3>Stored on your device</h3>
+                <p>Account, profile, workouts and body measurements stay in a local SQLite database.</p>
+            </div>
+            <div class="feat">
+                <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+                <h3>No third parties</h3>
+                <p>No analytics, no advertising networks, no cloud storage.</p>
+            </div>
         </div>
-        <div class="feat">
-            <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-            <h3>Stored on your device</h3>
-            <p>Account, profile, workouts and body measurements stay in a local SQLite database.</p>
-        </div>
-        <div class="feat">
-            <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
-            <h3>No third parties</h3>
-            <p>No analytics, no advertising networks, no cloud storage.</p>
-        </div>
-    </div>
 
-    <div class="layout">
+        <div class="layout">
 
-        <aside class="toc" aria-label="Contents">
-            <p class="lbl">Contents</p>
-            <ol>
-                <li><a href="#data-collection"><span class="num">01</span>Data Collection</a></li>
-                <li><a href="#local-storage"><span class="num">02</span>Data Stored on Your Device</a></li>
-                <li><a href="#data-sharing"><span class="num">03</span>No Data Sharing</a></li>
-                <li><a href="#third-party"><span class="num">04</span>No Third-Party Services</a></li>
-                <li><a href="#security"><span class="num">05</span>Data Security</a></li>
-                <li><a href="#retention"><span class="num">06</span>Retention, Export &amp; Deletion</a></li>
-                <li><a href="#children"><span class="num">07</span>Children’s Privacy</a></li>
-                <li><a href="#changes"><span class="num">08</span>Changes to This Policy</a></li>
-                <li><a href="#contact"><span class="num">09</span>Contact</a></li>
-            </ol>
-        </aside>
+            <aside class="toc" aria-label="Contents">
+                <p class="lbl">Contents</p>
+                <ol>
+                    <li><a href="#data-collection"><span class="num">01</span>Data Collection</a></li>
+                    <li><a href="#local-storage"><span class="num">02</span>Data Stored on Your Device</a></li>
+                    <li><a href="#data-sharing"><span class="num">03</span>No Data Sharing</a></li>
+                    <li><a href="#third-party"><span class="num">04</span>No Third-Party Services</a></li>
+                    <li><a href="#security"><span class="num">05</span>Data Security</a></li>
+                    <li><a href="#retention"><span class="num">06</span>Retention, Export &amp; Deletion</a></li>
+                    <li><a href="#children"><span class="num">07</span>Children’s Privacy</a></li>
+                    <li><a href="#changes"><span class="num">08</span>Changes to This Policy</a></li>
+                    <li><a href="#contact"><span class="num">09</span>Contact</a></li>
+                </ol>
+            </aside>
 
-        <main class="doc">
+            <main class="doc">
 
-            <section class="section" id="data-collection">
-                <div class="section-head">
-                    <span class="section-num">01</span>
-                    <h2 class="section-title">Data Collection</h2>
-                </div>
-                <div class="prose">
-                    <p>The developer does <strong>not collect, receive, or process any personal data</strong>.
-                        Nothing you enter in the Application is sent to the developer or to any server.</p>
-                    <p>No information such as:</p>
-                    <ul class="list list--no">
-                        <li>Name or username</li>
-                        <li>Email address</li>
-                        <li>Location data</li>
-                        <li>Device identifiers</li>
-                        <li>Health, fitness or body measurement data</li>
-                    </ul>
-                    <p>is collected by the developer or transmitted off your device.</p>
-                </div>
-            </section>
+                <section class="section" id="data-collection">
+                    <div class="section-head">
+                        <span class="section-num">01</span>
+                        <h2 class="section-title">Data Collection</h2>
+                    </div>
+                    <div class="prose">
+                        <p>The developer does <strong>not collect, receive, or process any personal data</strong>.
+                            Nothing you enter in the Application is sent to the developer or to any server.</p>
+                        <p>No information such as:</p>
+                        <ul class="list list--no">
+                            <li>Name or username</li>
+                            <li>Email address</li>
+                            <li>Location data</li>
+                            <li>Device identifiers</li>
+                            <li>Health, fitness or body measurement data</li>
+                        </ul>
+                        <p>is collected by the developer or transmitted off your device.</p>
+                    </div>
+                </section>
 
-            <section class="section" id="local-storage">
-                <div class="section-head">
-                    <span class="section-num">02</span>
-                    <h2 class="section-title">Data Stored on Your Device</h2>
-                </div>
-                <div class="prose">
-                    <p>The Application lets users create an account and record information about their training and
-                        their body. This information may include:</p>
-                    <ul class="list list--rich">
-                        <li class="i-lock"><strong>Account</strong>
-                            <span class="sub">A username and a password. The password is hashed and never stored in
-                                plain text. If you choose to stay signed in, the session is also kept on the
-                                device.</span></li>
-                        <li class="i-user"><strong>Profile</strong>
-                            <span class="sub">e.g., name, height, weight, age, training level and goal.</span></li>
-                        <li class="i-activity"><strong>Workouts</strong>
-                            <span class="sub">e.g., sessions, exercises, sets, repetitions and weights.</span></li>
-                        <li class="i-trend"><strong>Body measurements</strong>
-                            <span class="sub">e.g., weight history, body composition and hydration level.</span></li>
-                        <li class="i-sun"><strong>Preferences</strong>
-                            <span class="sub">e.g., the display theme.</span></li>
-                    </ul>
-                    <p>All such data is stored <strong>locally on the user’s device only</strong> using a SQLite
-                        database.</p>
-                    <p>This data:</p>
-                    <ul class="list list--yes">
-                        <li>remains on the device</li>
-                        <li>is not transmitted to any server</li>
-                        <li>is not accessible by the developer</li>
-                    </ul>
-                </div>
-            </section>
+                <section class="section" id="local-storage">
+                    <div class="section-head">
+                        <span class="section-num">02</span>
+                        <h2 class="section-title">Data Stored on Your Device</h2>
+                    </div>
+                    <div class="prose">
+                        <p>The Application lets users create an account and record information about their training
+                            and their body. This information may include:</p>
+                        <ul class="list list--rich">
+                            <li class="i-lock"><strong>Account</strong>
+                                <span class="sub">A username and a password. The password is hashed and never stored in
+                                    plain text. If you choose to stay signed in, the session is also kept on the
+                                    device.</span></li>
+                            <li class="i-user"><strong>Profile</strong>
+                                <span class="sub">e.g., name, height, weight, age, training level and goal.</span></li>
+                            <li class="i-activity"><strong>Workouts</strong>
+                                <span class="sub">e.g., sessions, exercises, sets, repetitions and weights.</span></li>
+                            <li class="i-trend"><strong>Body measurements</strong>
+                                <span class="sub">e.g., weight history, body composition and hydration level.</span></li>
+                            <li class="i-sun"><strong>Preferences</strong>
+                                <span class="sub">e.g., the display theme.</span></li>
+                        </ul>
+                        <p>All such data is stored <strong>locally on the user’s device only</strong> using a SQLite
+                            database.</p>
+                        <p>This data:</p>
+                        <ul class="list list--yes">
+                            <li>remains on the device</li>
+                            <li>is not transmitted to any server</li>
+                            <li>is not accessible by the developer</li>
+                        </ul>
+                    </div>
+                </section>
 
-            <section class="section" id="data-sharing">
-                <div class="section-head">
-                    <span class="section-num">03</span>
-                    <h2 class="section-title">No Data Sharing</h2>
-                </div>
-                <div class="prose">
-                    <p>The Application does not share any data with third parties.</p>
-                    <p>Since the developer never receives user data, it cannot be sold, rented or disclosed.</p>
-                </div>
-            </section>
+                <section class="section" id="data-sharing">
+                    <div class="section-head">
+                        <span class="section-num">03</span>
+                        <h2 class="section-title">No Data Sharing</h2>
+                    </div>
+                    <div class="prose">
+                        <p>The Application does not share any data with third parties.</p>
+                        <p>Since the developer never receives user data, it cannot be sold, rented or disclosed.</p>
+                    </div>
+                </section>
 
-            <section class="section" id="third-party">
-                <div class="section-head">
-                    <span class="section-num">04</span>
-                    <h2 class="section-title">No <span class="nowrap">Third-Party</span> Services</h2>
-                </div>
-                <div class="prose">
-                    <p>The Application does not use any third-party services that collect data, including:</p>
-                    <ul class="list list--no">
-                        <li>Analytics tools</li>
-                        <li>Advertising networks</li>
-                        <li>Cloud storage services</li>
-                    </ul>
-                </div>
-            </section>
+                <section class="section" id="third-party">
+                    <div class="section-head">
+                        <span class="section-num">04</span>
+                        <h2 class="section-title">No <span class="nowrap">Third-Party</span> Services</h2>
+                    </div>
+                    <div class="prose">
+                        <p>The Application does not use any third-party services that collect data, including:</p>
+                        <ul class="list list--no">
+                            <li>Analytics tools</li>
+                            <li>Advertising networks</li>
+                            <li>Cloud storage services</li>
+                        </ul>
+                    </div>
+                </section>
 
-            <section class="section" id="security">
-                <div class="section-head">
-                    <span class="section-num">05</span>
-                    <h2 class="section-title">Data Security</h2>
-                </div>
-                <div class="prose">
-                    <p>Since all data is stored locally, the security of the data depends on the user's device security
-                        (e.g., passcode, biometric lock). This matters all the more for body measurements, which are
-                        health-related data.</p>
-                    <p>Passwords are hashed before being stored: they are never kept in plain text.</p>
-                    <p>The developer has no access to user accounts or data, and therefore cannot reset a forgotten
-                        password or recover lost data.</p>
-                </div>
-            </section>
+                <section class="section" id="security">
+                    <div class="section-head">
+                        <span class="section-num">05</span>
+                        <h2 class="section-title">Data Security</h2>
+                    </div>
+                    <div class="prose">
+                        <p>Since all data is stored locally, the security of the data depends on the user's device
+                            security (e.g., passcode, biometric lock). This matters all the more for body measurements,
+                            which are health-related data.</p>
+                        <p>Passwords are hashed before being stored: they are never kept in plain text.</p>
+                        <p>The developer has no access to user accounts or data, and therefore cannot reset a forgotten
+                            password or recover lost data.</p>
+                    </div>
+                </section>
 
-            <section class="section" id="retention">
-                <div class="section-head">
-                    <span class="section-num">06</span>
-                    <h2 class="section-title">Retention, Export &amp; Deletion</h2>
-                </div>
-                <div class="prose">
-                    <p>Data is retained on the device until the user deletes it.</p>
-                    <p>Users can:</p>
-                    <ul class="list">
-                        <li class="i-download">export their data from <strong>Profil › Données</strong></li>
-                        <li class="i-trash">delete their data from <strong>Profil › Données</strong></li>
-                        <li class="i-trash">clear the application data</li>
-                        <li class="i-trash">or uninstall the Application</li>
-                    </ul>
-                    <p>An exported file is saved or shared wherever the user chooses. From then on, it is under the
-                        user’s control and no longer stays only inside the Application.</p>
-                </div>
-            </section>
+                <section class="section" id="retention">
+                    <div class="section-head">
+                        <span class="section-num">06</span>
+                        <h2 class="section-title">Retention, Export &amp; Deletion</h2>
+                    </div>
+                    <div class="prose">
+                        <p>Data is retained on the device until the user deletes it.</p>
+                        <p>Users can:</p>
+                        <ul class="list">
+                            <li class="i-download">export their data from <strong>Profil › Données</strong></li>
+                            <li class="i-trash">delete their data from <strong>Profil › Données</strong></li>
+                            <li class="i-trash">clear the application data</li>
+                            <li class="i-trash">or uninstall the Application</li>
+                        </ul>
+                        <p>An exported file is saved or shared wherever the user chooses. From then on, it is under the
+                            user’s control and no longer stays only inside the Application.</p>
+                    </div>
+                </section>
 
-            <section class="section" id="children">
-                <div class="section-head">
-                    <span class="section-num">07</span>
-                    <h2 class="section-title">Children’s Privacy</h2>
-                </div>
-                <div class="prose">
-                    <p>The Application does not knowingly collect any data from children under the age of 13.</p>
-                    <p>Since no data is transmitted to the developer, no processing of children's data by the
-                        developer occurs.</p>
-                </div>
-            </section>
+                <section class="section" id="children">
+                    <div class="section-head">
+                        <span class="section-num">07</span>
+                        <h2 class="section-title">Children’s Privacy</h2>
+                    </div>
+                    <div class="prose">
+                        <p>The Application does not knowingly collect any data from children under the age of 13.</p>
+                        <p>Since no data is transmitted to the developer, no processing of children's data by the
+                            developer occurs.</p>
+                    </div>
+                </section>
 
-            <section class="section" id="changes">
-                <div class="section-head">
-                    <span class="section-num">08</span>
-                    <h2 class="section-title">Changes to This Policy</h2>
-                </div>
-                <div class="prose">
-                    <p>This Privacy Policy may be updated from time to time.</p>
-                    <p>Users are encouraged to review this page periodically.</p>
-                </div>
-            </section>
+                <section class="section" id="changes">
+                    <div class="section-head">
+                        <span class="section-num">08</span>
+                        <h2 class="section-title">Changes to This Policy</h2>
+                    </div>
+                    <div class="prose">
+                        <p>This Privacy Policy may be updated from time to time.</p>
+                        <p>Users are encouraged to review this page periodically.</p>
+                    </div>
+                </section>
 
-            <section class="section" id="contact">
-                <div class="section-head">
-                    <span class="section-num">09</span>
-                    <h2 class="section-title">Contact</h2>
-                </div>
-                <div class="prose">
-                    <p>If you have any questions about this Privacy Policy, you can contact:</p>
-                    <div class="field">
-                        <span class="field-label">Email</span>
-                        <div class="field-box">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
-                            to be completed
+                <section class="section" id="contact">
+                    <div class="section-head">
+                        <span class="section-num">09</span>
+                        <h2 class="section-title">Contact</h2>
+                    </div>
+                    <div class="prose">
+                        <p>If you have any questions about this Privacy Policy, you can contact:</p>
+                        <div class="field">
+                            <span class="field-label">Email</span>
+                            <div class="field-box">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+                                to be completed
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <p class="back">
-                <a class="btn ghost" href="./">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                    BACK
-                </a>
-            </p>
+                <p class="back">
+                    <a class="btn ghost" href="./">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                        BACK
+                    </a>
+                </p>
 
-        </main>
+            </main>
+        </div>
+    </div>
+
+    <!-- ==================== FRANÇAIS ==================== -->
+    <div class="l10n" lang="fr">
+
+        <div class="hero">
+            <p class="eyebrow">Légal · Confidentialité</p>
+            <h1 class="page-title">Politique de confidentialité</h1>
+            <p class="lede">Cette politique de confidentialité décrit la manière dont l’application mobile
+                <strong>MuscleUP</strong> («&nbsp;l’Application&nbsp;») traite les données des utilisateurs.</p>
+            <div class="meta-row">
+                <span class="tag"><b>0</b>&nbsp;donnée personnelle collectée</span>
+                <span class="tag"><b>100&nbsp;%</b>&nbsp;sur l’appareil</span>
+                <span class="tag">Mise à jour&nbsp;·&nbsp;<b>19 octobre 2026</b></span>
+            </div>
+        </div>
+
+        <div class="summary">
+            <div class="feat">
+                <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></svg>
+                <h3>Aucune collecte</h3>
+                <p>Rien de ce que vous saisissez n’est envoyé au développeur ni à un serveur.</p>
+            </div>
+            <div class="feat">
+                <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+                <h3>Stocké sur votre appareil</h3>
+                <p>Compte, profil, entraînements et mesures corporelles restent dans une base SQLite locale.</p>
+            </div>
+            <div class="feat">
+                <svg class="fi" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+                <h3>Aucun tiers</h3>
+                <p>Pas d’outil d’analyse, pas de régie publicitaire, pas de stockage cloud.</p>
+            </div>
+        </div>
+
+        <div class="layout">
+
+            <aside class="toc" aria-label="Sommaire">
+                <p class="lbl">Sommaire</p>
+                <ol>
+                    <li><a href="#collecte"><span class="num">01</span>Collecte des données</a></li>
+                    <li><a href="#stockage-local"><span class="num">02</span>Données stockées sur votre appareil</a></li>
+                    <li><a href="#partage"><span class="num">03</span>Aucun partage de données</a></li>
+                    <li><a href="#services-tiers"><span class="num">04</span>Aucun service tiers</a></li>
+                    <li><a href="#securite"><span class="num">05</span>Sécurité des données</a></li>
+                    <li><a href="#conservation"><span class="num">06</span>Conservation, export et suppression</a></li>
+                    <li><a href="#enfants"><span class="num">07</span>Données des enfants</a></li>
+                    <li><a href="#modifications"><span class="num">08</span>Modifications de cette politique</a></li>
+                    <li><a href="#nous-contacter"><span class="num">09</span>Contact</a></li>
+                </ol>
+            </aside>
+
+            <main class="doc">
+
+                <section class="section" id="collecte">
+                    <div class="section-head">
+                        <span class="section-num">01</span>
+                        <h2 class="section-title">Collecte des données</h2>
+                    </div>
+                    <div class="prose">
+                        <p>Le développeur <strong>ne collecte, ne reçoit et ne traite aucune donnée personnelle</strong>.
+                            Rien de ce que vous saisissez dans l’Application n’est envoyé au développeur ni à un
+                            serveur.</p>
+                        <p>Aucune information telle que&nbsp;:</p>
+                        <ul class="list list--no">
+                            <li>Nom ou nom d’utilisateur</li>
+                            <li>Adresse e-mail</li>
+                            <li>Données de localisation</li>
+                            <li>Identifiants de l’appareil</li>
+                            <li>Données de santé, de forme physique ou de mesures corporelles</li>
+                        </ul>
+                        <p>n’est collectée par le développeur ni transmise hors de votre appareil.</p>
+                    </div>
+                </section>
+
+                <section class="section" id="stockage-local">
+                    <div class="section-head">
+                        <span class="section-num">02</span>
+                        <h2 class="section-title">Données stockées sur votre appareil</h2>
+                    </div>
+                    <div class="prose">
+                        <p>L’Application permet de créer un compte et d’enregistrer des informations sur votre
+                            entraînement et votre corps. Ces informations peuvent comprendre&nbsp;:</p>
+                        <ul class="list list--rich">
+                            <li class="i-lock"><strong>Compte</strong>
+                                <span class="sub">Un nom d’utilisateur et un mot de passe. Le mot de passe est haché et
+                                    n’est jamais stocké en clair. Si vous choisissez de rester connecté, la session est
+                                    elle aussi conservée sur l’appareil.</span></li>
+                            <li class="i-user"><strong>Profil</strong>
+                                <span class="sub">p.&nbsp;ex. nom, taille, poids, âge, niveau et objectif.</span></li>
+                            <li class="i-activity"><strong>Entraînements</strong>
+                                <span class="sub">p.&nbsp;ex. séances, exercices, séries, répétitions et charges.</span></li>
+                            <li class="i-trend"><strong>Mesures corporelles</strong>
+                                <span class="sub">p.&nbsp;ex. historique du poids, composition corporelle et taux
+                                    d’hydratation.</span></li>
+                            <li class="i-sun"><strong>Préférences</strong>
+                                <span class="sub">p.&nbsp;ex. le thème d’affichage.</span></li>
+                        </ul>
+                        <p>Toutes ces données sont stockées <strong>uniquement en local, sur l’appareil de
+                            l’utilisateur</strong>, dans une base de données SQLite.</p>
+                        <p>Ces données&nbsp;:</p>
+                        <ul class="list list--yes">
+                            <li>restent sur l’appareil</li>
+                            <li>ne sont transmises à aucun serveur</li>
+                            <li>ne sont pas accessibles au développeur</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section" id="partage">
+                    <div class="section-head">
+                        <span class="section-num">03</span>
+                        <h2 class="section-title">Aucun partage de données</h2>
+                    </div>
+                    <div class="prose">
+                        <p>L’Application ne partage aucune donnée avec des tiers.</p>
+                        <p>Le développeur ne recevant jamais les données des utilisateurs, celles-ci ne peuvent être ni
+                            vendues, ni louées, ni divulguées.</p>
+                    </div>
+                </section>
+
+                <section class="section" id="services-tiers">
+                    <div class="section-head">
+                        <span class="section-num">04</span>
+                        <h2 class="section-title">Aucun service tiers</h2>
+                    </div>
+                    <div class="prose">
+                        <p>L’Application n’utilise aucun service tiers collectant des données, notamment&nbsp;:</p>
+                        <ul class="list list--no">
+                            <li>Outils d’analyse d’audience</li>
+                            <li>Régies publicitaires</li>
+                            <li>Services de stockage cloud</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section" id="securite">
+                    <div class="section-head">
+                        <span class="section-num">05</span>
+                        <h2 class="section-title">Sécurité des données</h2>
+                    </div>
+                    <div class="prose">
+                        <p>Toutes les données étant stockées localement, leur sécurité dépend de celle de l’appareil de
+                            l’utilisateur (code, verrouillage biométrique, etc.). C’est d’autant plus important pour les
+                            mesures corporelles, qui sont des données de santé.</p>
+                        <p>Les mots de passe sont hachés avant d’être enregistrés&nbsp;: ils ne sont jamais conservés en
+                            clair.</p>
+                        <p>Le développeur n’a accès ni aux comptes ni aux données des utilisateurs&nbsp;; il ne peut donc
+                            ni réinitialiser un mot de passe oublié, ni récupérer des données perdues.</p>
+                    </div>
+                </section>
+
+                <section class="section" id="conservation">
+                    <div class="section-head">
+                        <span class="section-num">06</span>
+                        <h2 class="section-title">Conservation, export et suppression</h2>
+                    </div>
+                    <div class="prose">
+                        <p>Les données sont conservées sur l’appareil jusqu’à ce que l’utilisateur les supprime.</p>
+                        <p>L’utilisateur peut&nbsp;:</p>
+                        <ul class="list">
+                            <li class="i-download">exporter ses données depuis <strong>Profil › Données</strong></li>
+                            <li class="i-trash">supprimer ses données depuis <strong>Profil › Données</strong></li>
+                            <li class="i-trash">effacer les données de l’application</li>
+                            <li class="i-trash">ou désinstaller l’Application</li>
+                        </ul>
+                        <p>Un fichier exporté est enregistré ou partagé à l’endroit choisi par l’utilisateur. Dès lors,
+                            il est sous son contrôle et ne reste plus uniquement dans l’Application.</p>
+                    </div>
+                </section>
+
+                <section class="section" id="enfants">
+                    <div class="section-head">
+                        <span class="section-num">07</span>
+                        <h2 class="section-title">Données des enfants</h2>
+                    </div>
+                    <div class="prose">
+                        <p>L’Application ne collecte sciemment aucune donnée concernant des enfants de moins de
+                            13&nbsp;ans.</p>
+                        <p>Aucune donnée n’étant transmise au développeur, celui-ci n’effectue aucun traitement de
+                            données d’enfants.</p>
+                    </div>
+                </section>
+
+                <section class="section" id="modifications">
+                    <div class="section-head">
+                        <span class="section-num">08</span>
+                        <h2 class="section-title">Modifications de cette politique</h2>
+                    </div>
+                    <div class="prose">
+                        <p>Cette politique de confidentialité peut être mise à jour de temps à autre.</p>
+                        <p>Les utilisateurs sont invités à consulter cette page régulièrement.</p>
+                    </div>
+                </section>
+
+                <section class="section" id="nous-contacter">
+                    <div class="section-head">
+                        <span class="section-num">09</span>
+                        <h2 class="section-title">Contact</h2>
+                    </div>
+                    <div class="prose">
+                        <p>Pour toute question concernant cette politique de confidentialité, vous pouvez
+                            contacter&nbsp;:</p>
+                        <div class="field">
+                            <span class="field-label">E-mail</span>
+                            <div class="field-box">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+                                à compléter
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <p class="back">
+                    <a class="btn ghost" href="./">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                        RETOUR
+                    </a>
+                </p>
+
+            </main>
+        </div>
     </div>
 
     <footer>
-        <span>MuscleUP · Privacy Policy</span>
-        <span>Last updated: <span class="num">October 19, 2026</span></span>
+        <span>MuscleUP · <span class="l10n" lang="en">Privacy Policy</span><span class="l10n" lang="fr">Politique de confidentialité</span></span>
+        <span class="l10n" lang="en">Last updated: <span class="num">October 19, 2026</span></span>
+        <span class="l10n" lang="fr">Dernière mise à jour&nbsp;: <span class="num">19 octobre 2026</span></span>
     </footer>
 
 </div>

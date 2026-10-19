@@ -117,6 +117,41 @@ a { color: var(--red-text); }
     border-color: rgba(234, 61, 61, 0.5);
     background: rgba(234, 61, 61, 0.08);
 }
+.topbar-end {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ---------- Sélecteur de langue ---------- */
+.lang-switch {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.02);
+}
+.lang-switch a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 5px 10px;
+    border-radius: 999px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s, background-color 0.15s;
+}
+.lang-switch a:hover { color: var(--text); }
+html[lang="en"] .lang-switch [data-set-lang="en"],
+html[lang="fr"] .lang-switch [data-set-lang="fr"] {
+    background: var(--red);
+    color: #fff;
+}
+
+/* Contenu bilingue : seuls les blocs de la langue active (html[lang]) sont affichés */
+html[lang="en"] .l10n:not([lang="en"]),
+html[lang="fr"] .l10n:not([lang="fr"]) { display: none; }
 
 /* ---------- En-tête ---------- */
 .hero { padding: 48px 0 0; }
@@ -152,11 +187,13 @@ a { color: var(--red-text); }
 .page-title {
     font-family: var(--display);
     font-weight: 400;
-    font-size: clamp(28px, 6vw, 58px);
+    font-size: clamp(22px, 6.4vw, 58px);
     line-height: 1.02;
     margin: 0;
     letter-spacing: -0.01em;
     text-wrap: balance;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .lede {
