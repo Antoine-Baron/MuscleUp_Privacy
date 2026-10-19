@@ -3,73 +3,155 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="color-scheme" content="dark light"/>
     <title>MuscleUP - CGU</title>
 
     <link rel="icon" href="favicon.ico"/>
 
-    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Inter:wght@300;400;600&display=swap"
-          rel="stylesheet">
-
-    <style>
-        body {
-            margin: 0;
-            background: #313131;
-            color: #FFF;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 40px 20px;
-        }
-
-        h1, h2 {
-            font-family: 'Rubik Mono One', sans-serif;
-            color: #EA3D3D;
-        }
-
-        p {
-            opacity: 0.85;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        .small {
-            opacity: 0.6;
-            font-size: 12px;
-        }
-
-        a {
-            color: #EA3D3D;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"/>
 </head>
 
 <body>
-<div class="container">
+<div class="wrap">
 
-    <h1>Conditions Générales d’Utilisation</h1>
+    <header class="topbar">
+        <a class="logo" href="./">MUSCLE<span class="up">UP</span></a>
+        <nav class="nav" aria-label="Documents légaux">
+            <a href="terms.html" aria-current="page">CGU</a>
+            <a href="privacy.html" hreflang="en">Privacy</a>
+        </nav>
+    </header>
 
-    <p>MuscleUP est une application permettant de suivre sa progression sportive.</p>
+    <div class="hero">
+        <p class="eyebrow">Légal · CGU</p>
+        <h1 class="page-title">Conditions Générales d’Utilisation</h1>
+        <p class="lede">MuscleUP est une application permettant de suivre sa progression sportive : séances,
+            exercices, séries, progression et mesures corporelles.</p>
+        <div class="meta-row">
+            <span class="tag"><b>Gratuite</b></span>
+            <span class="tag"><b>100&nbsp;%</b>&nbsp;local</span>
+            <span class="tag">Mise à jour&nbsp;·&nbsp;<b class="num">19 octobre 2026</b></span>
+        </div>
+    </div>
 
-    <h2>Accès</h2>
-    <p>L’application est gratuite et sans compte.</p>
+    <div class="layout">
 
-    <h2>Données</h2>
-    <p>Aucune donnée personnelle n’est collectée.</p>
-    <p>Toutes les données sont stockées localement (SQLite).</p>
+        <aside class="toc" aria-label="Sommaire">
+            <p class="lbl">Sommaire</p>
+            <ol>
+                <li><a href="#acces"><span class="num">01</span>Accès</a></li>
+                <li><a href="#compte"><span class="num">02</span>Compte</a></li>
+                <li><a href="#donnees"><span class="num">03</span>Données</a></li>
+                <li><a href="#sante"><span class="num">04</span>Santé</a></li>
+                <li><a href="#responsabilite"><span class="num">05</span>Responsabilité</a></li>
+                <li><a href="#modification"><span class="num">06</span>Modification</a></li>
+            </ol>
+        </aside>
 
-    <h2>Responsabilité</h2>
-    <p>L’application est fournie sans garantie.</p>
+        <main class="doc">
 
-    <h2>Modification</h2>
-    <p>Les CGU peuvent être modifiées à tout moment.</p>
+            <section class="section" id="acces">
+                <div class="section-head">
+                    <span class="section-num">01</span>
+                    <h2 class="section-title">Accès</h2>
+                </div>
+                <div class="prose">
+                    <p>L’application est gratuite.</p>
+                    <p>Son utilisation nécessite la création d’un <strong>compte local</strong>, composé d’un nom
+                        d’utilisateur et d’un mot de passe. Ce compte est créé et conservé uniquement sur l’appareil :
+                        aucune information d’inscription n’est transmise à un serveur.</p>
+                </div>
+            </section>
 
-    <p class="small">Dernière mise à jour : 06 Mai 2026</p>
+            <section class="section" id="compte">
+                <div class="section-head">
+                    <span class="section-num">02</span>
+                    <h2 class="section-title">Compte</h2>
+                </div>
+                <div class="prose">
+                    <p>L’utilisateur est responsable de la confidentialité de son mot de passe et de l’accès à son
+                        appareil.</p>
+                    <p>Le mot de passe est haché et n’est jamais stocké en clair.</p>
+                    <p>Le compte n’existant que sur l’appareil, l’éditeur ne peut ni réinitialiser un mot de passe
+                        oublié, ni restaurer un compte ou des données perdus.</p>
+                </div>
+            </section>
 
-    <p><a href="/">← Retour</a></p>
+            <section class="section" id="donnees">
+                <div class="section-head">
+                    <span class="section-num">03</span>
+                    <h2 class="section-title">Données</h2>
+                </div>
+                <div class="prose">
+                    <p>Aucune donnée personnelle n’est collectée par l’éditeur.</p>
+                    <p>Toutes les données sont stockées localement sur l’appareil (SQLite) et ne sont transmises à
+                        aucun serveur :</p>
+                    <ul class="list">
+                        <li class="i-lock">Compte (nom d’utilisateur, mot de passe haché)</li>
+                        <li class="i-user">Profil (nom, taille, poids, âge, niveau, objectif)</li>
+                        <li class="i-activity">Séances, exercices et séries</li>
+                        <li class="i-trend">Mesures corporelles (poids, composition corporelle, hydratation)</li>
+                    </ul>
+                    <p>L’utilisateur peut à tout moment exporter ou supprimer ses données depuis
+                        <strong>Profil › Données</strong>. Pour plus de détails, voir la
+                        <a href="privacy.html" hreflang="en">Privacy Policy</a>.</p>
+                </div>
+            </section>
+
+            <section class="section" id="sante">
+                <div class="section-head">
+                    <span class="section-num">04</span>
+                    <h2 class="section-title">Santé</h2>
+                </div>
+                <div class="prose">
+                    <p>Les informations fournies par l’application (1RM estimé, composition corporelle, hydratation,
+                        etc.) sont données à titre indicatif. Elles ne constituent pas un avis médical et ne
+                        remplacent pas celui d’un professionnel de santé.</p>
+                    <p>L’utilisateur pratique sous sa propre responsabilité et adapte ses charges à sa condition
+                        physique.</p>
+                </div>
+            </section>
+
+            <section class="section" id="responsabilite">
+                <div class="section-head">
+                    <span class="section-num">05</span>
+                    <h2 class="section-title">Responsabilité</h2>
+                </div>
+                <div class="prose">
+                    <p>L’application est fournie sans garantie.</p>
+                    <p>Les données étant stockées uniquement sur l’appareil, l’éditeur ne peut être tenu responsable
+                        de leur perte (désinstallation, perte ou changement d’appareil, etc.). Il est conseillé
+                        d’exporter régulièrement ses données.</p>
+                </div>
+            </section>
+
+            <section class="section" id="modification">
+                <div class="section-head">
+                    <span class="section-num">06</span>
+                    <h2 class="section-title">Modification</h2>
+                </div>
+                <div class="prose">
+                    <p>Les CGU peuvent être modifiées à tout moment.</p>
+                </div>
+            </section>
+
+            <p class="back">
+                <a class="btn ghost" href="./">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                    RETOUR
+                </a>
+            </p>
+
+        </main>
+    </div>
+
+    <footer>
+        <span>MuscleUP · Conditions Générales d’Utilisation</span>
+        <span>Dernière mise à jour : <span class="num">19 octobre 2026</span></span>
+    </footer>
 
 </div>
 </body>
